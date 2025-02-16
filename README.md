@@ -1,4 +1,10 @@
-# MEA OS
+```
+  \  | ____|    \      _ \   ___| 
+ |\/ | __|     _ \    |   |\___ \ 
+ |   | |      ___ \   |   |      |
+_|  _|_____|_/    _\ \___/ _____/ 
+```
+
 - Based on the venerable Debian code base and repositories, because writing documentation is hard, and they did a great job of it already..
 - Focused on terminal-driven tool-centered productivity, because you shouldn't **need** a machine.
 - Built with the interplanetary filesystem and noSQL future in mind, because [SQL](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=SQL&field_date_added_wrapper=all&field_cve=&sort_by=field_date_added&items_per_page=20&url=) sucks.

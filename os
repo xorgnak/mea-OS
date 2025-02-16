@@ -9,6 +9,8 @@ do
 	fi
 done
 
+logo
+
 echo "# downloading ipfs source."
 
 # get ipfs
@@ -24,12 +26,14 @@ echo "#                                        #"
 echo "#  ROOT PASSWORD TO INSTALL MEA OS CORE  #"
 echo "#                                        #"
 echo "##########################################"
-su -c "apt install screen valkey micro htop mc lua5.4 slashem bsdgames cmatrix sl cbonsai build-essential ruby-full $XXX && \
+su -c "apt install screen valkey micro htop mc figlet lua5.4 slashem bsdgames cmatrix sl cbonsai build-essential ruby-full $XXX && \
 gem install sinatra redis pry amatch valkey-objects && \
 echo  '' > /etc/issue && \
 echo '' > /etc/issue.net && \
 echo '' > /etc/motd && \
-bash install.sh
+echo 'figlet -f shadow \"MEA OS\" > /bin/logo && \
+bash install.sh && \
+rm /bin/os
 "
 
 echo "# cleanup ipfs source."
@@ -101,4 +105,11 @@ alias freshen='su -c "apt update -q && apt-get upgrade -y -q"'
 EOF
 fi
 
+sync
+
 echo "# MEA OS installation complete."
+echo "###############################################"
+echo "#                                             #"
+echo "#  YOU MAY NOW POWER OFF THE VIRTUAL MACHINE  #"
+echo "#                                             #"
+echo "###############################################"
