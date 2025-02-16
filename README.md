@@ -36,7 +36,7 @@ cd mea-OS
 # 5. install base system with ssh server
 # 6. finish
 # ... install debian base and Power Off Virtual Machine when finished. 
-# After Boot and loginlogin, run the os utility to install the overlay.
+# After Boot and login, run the os utility to install the overlay.
 os
 # Or, optionally install the desktop.
 os --gui
