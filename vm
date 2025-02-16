@@ -1,0 +1,62 @@
+#!/bin/bash
+
+RAM=1G
+SIZE=4G
+IMG=mea.img
+
+ZOOM='-display gtk,zoom-to-fit=on'
+FWD="-net user,hostfwd=tcp::$PORT-:80"
+SSHABLE='-net user,hostfwd=tcp::10022-:22'
+CDROM="-m $RAM -cdrom debian.iso -hda $IMG -boot d"
+HD="-hda $IMG -boot c"
+STD="-m $RAM -net nic" 
+
+if [[ "$1" == "--build" ]]; then
+	if [[ "$2" == "--scratch" ]]; then
+		rm $IMG
+		rm debian.iso
+	fi	
+	if [[ ! -f debian.iso ]]; then
+		wget -O debian.iso https://d-i.debian.org/daily-images/amd64/daily/netboot/mini.iso
+	fi
+	if [[ ! -f $IMG ]]; then
+		qemu-img create -f qcow2 $IMG $SIZE
+	fi
+	qemu-system-amd64 $ZOOM $CDROM
+	./$0 --mount
+	sudo cp os img/bin/os
+	./$0 --umount
+	./$0 --qemu
+	
+elif [[ "$1" == "--qemu" ]]; then
+	qemu-system-amd64 $ZOOM $STD $SSHABLE $HD
+elif [[ "$1" == "--proxy" ]]; then
+	qemu-system-amd64 $ZOOM $STD $FWD $HD
+elif [[ "$1" == "--connect" ]]; then
+	ssh mea@localhost -p10022
+elif [[ "$1" == "--mount" ]]; then
+	sudo modprobe nbd max_part=8	
+	sudo qemu-nbd --connect=/dev/nbd0 mea.img
+	mkdir img
+	sudo mount /dev/nbd0p1 img
+	echo "image mounted at `pwd`/img:"
+	ls -lha img
+elif [[ "$1" == "--umount" ]]; then
+	sync
+	sudo umount img
+	sudo qemu-nbd --disconnect /dev/nbd0
+	rm -fR img
+elif [[ "$1" == "--save" ]]; then
+	cp mea.img mea-$2.img
+elif [[ "$1" == "--load" ]]; then
+	cp mea-$2.img mea.img
+else
+	echo "build image (from scratch): $0 --build [--scratch]"
+	echo "administer image: $0 --qemu"
+	echo "run image: export PORT=4567; $0 --proxy" 
+	echo "ssh to running image: $0 --connect"
+	echo "mount image: $0 --mount"
+	echo "sync image: $0 --umount"
+	echo "save image: $0 --save name"
+	echo "load image: $0 --load name"	
+fi
