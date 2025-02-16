@@ -17,7 +17,7 @@ _|  _|_____|_/    _\ \___/ _____/
 - [micro](https://github.com/zyedidia/micro?tab=readme-ov-file#installation) text editor.
 
 ## MEA Desktop Enviroment
-- [Awesome](https://wiki.debian.org/Awesome): A simple and intuitive tabbed window manager.
+- [Awesome](https://wiki.debian.org/Awesome), A simple and intuitive tabbed window manager.
 - Finally, A distro that ships with [VLC](https://manpages.debian.org/bookworm/vlc-bin/vlc.1.en.html) as it's flagship media player!
 - Fireox, because it's smaller than chrome and better than [surf](https://surf.suckless.org/).
 - PCmanFm, because graphical filemanagers exist, and it's alright.
