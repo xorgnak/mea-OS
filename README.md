@@ -42,8 +42,8 @@ os
 os --gui
 # Reboot when done.
 ```
-3. After your reboot completes, you will be prompted to edit your session configuration.
-4. Congradulations, you're done.
+2. After your reboot completes, you will be prompted to edit your session configuration.
+3. Congradulations, you're done - You now have a fully functional virtual or otherwise MEA instance.
 
 ## VM utility (host)
 - `./vm --qemu` boots your image and opens a port for ssh access.
