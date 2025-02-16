@@ -5,7 +5,7 @@ XXX="";
 for v in $*
 do
 	if [[ "$v" == "--gui" ]]; then
-		XXX+="awesome awesome-extra xinit xorg kitty vlc pcmanfm firefox-esr feh";	
+		XXX+="awesome awesome-extra xinit xorg kitty vlc pcmanfm firefox-esr feh pulseaudio";	
 	fi
 done
 
