@@ -15,6 +15,7 @@ _|  _|_____|_/    _\ \___/ _____/
 - [lua](https://www.lua.org/manual/5.4/) and [ruby](https://docs.ruby-lang.org/en/master/) interpreters.
 - [valkey](https://github.com/valkey-io/valkey) noSQL database.
 - [micro](https://github.com/zyedidia/micro?tab=readme-ov-file#installation) text editor.
+- [ipfs](https://en.wikipedia.org/wiki/InterPlanetary_File_System) for distributed file managment.
 
 ## MEA Desktop Enviroment
 - [Awesome](https://wiki.debian.org/Awesome), A simple and intuitive tabbed window manager.
