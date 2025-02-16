@@ -26,8 +26,8 @@ echo "#                                        #"
 echo "#  ROOT PASSWORD TO INSTALL MEA OS CORE  #"
 echo "#                                        #"
 echo "##########################################"
-su -c "apt install git curl screen valkey micro htop mc figlet lua5.4 slashem bsdgames cmatrix sl cbonsai build-essential ruby-full $XXX && \
-gem install sinatra redis pry amatch valkey-objects && \
+su -c "apt install git curl screen valkey micro htop mc figlet lua5.4 lua-http lua-redis luarocks slashem bsdgames cmatrix sl cbonsai build-essential ruby-full $XXX && \
+gem install sinatra redis pry amatch valkey-objects ipfs-api && \
 echo  '' > /etc/issue && \
 echo '' > /etc/issue.net && \
 echo '' > /etc/motd && \
