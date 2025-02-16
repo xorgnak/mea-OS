@@ -4,8 +4,7 @@
  |   | |      ___ \   |   |      |
 _|  _|_____|_/    _\ \___/ _____/ 
 ```
-
-- Based on the venerable Debian code base and repositories, because writing documentation is hard, and they did a great job of it already..
+- Based on the venerable Debian code base and repositories, because writing documentation is hard, and they did a great job of it already.
 - Focused on terminal-driven tool-centered productivity, because you shouldn't **need** a machine.
 - Built with the interplanetary filesystem and noSQL future in mind, because [SQL](https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=SQL&field_date_added_wrapper=all&field_cve=&sort_by=field_date_added&items_per_page=20&url=) sucks.
 - Integrated VM utility which creates and manages a USB-portable persistent [virtual](https://www.qemu.org/) machine [image](https://en.wikipedia.org/wiki/Qcow) (qcow2).
@@ -24,11 +23,14 @@ _|  _|_____|_/    _\ \___/ _____/
 git clone https://github.com/mea-OS
 cd mea-OS
 ./vm --build
+# 1. set root password
+# 2. create user and set password
+# 3. set timezone
+# 4. partition
+# 5. install base system with ssh server
+# 6. finish
 # ... install debian base and Power Off Virtual Machine when finished. 
-```
-2. Install MEA overlay.
-```
-# After login, run the os utility to install the overlay.
+# After Boot and loginlogin, run the os utility to install the overlay.
 os
 # Or, optionally install the desktop.
 os --gui
@@ -46,6 +48,3 @@ os --gui
 - `./vm --save snapshot` save a copy of the image called snapshot.
 - `./vm --load snapshot` load the copy of the image called snapshot.  
 
-## OS utility (guest)
-- `os` installs the MEA OS overlay.
-- `os --gui` installs the MEA OS overlay with the desktop enviroment.
