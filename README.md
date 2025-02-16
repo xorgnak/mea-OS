@@ -10,6 +10,12 @@ _|  _|_____|_/    _\ \___/ _____/
 - Integrated VM utility which creates and manages a USB-portable persistent [virtual](https://www.qemu.org/) machine [image](https://en.wikipedia.org/wiki/Qcow) (qcow2).
 - Maximally portable using any x86_64 virtual machine emulator ([QEMU](https://www.qemu.org/download/), [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [vmware](https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion)) to boot on any platform.
 
+## MEA Core
+- [screen]() session managment.
+- [lua](https://www.lua.org/manual/5.4/) and [ruby](https://docs.ruby-lang.org/en/master/) interpreters.
+- [valkey](https://github.com/valkey-io/valkey) noSQL database.
+- [micro](https://github.com/zyedidia/micro?tab=readme-ov-file#installation) text editor.
+
 ## MEA Desktop Enviroment
 - [Awesome](https://wiki.debian.org/Awesome): A simple and intuitive tabbed window manager.
 - Finally, A distro that ships with [VLC](https://manpages.debian.org/bookworm/vlc-bin/vlc.1.en.html) as it's flagship media player!
@@ -47,4 +53,3 @@ os --gui
 - `./vm --umount` un-mounts the image from the host.
 - `./vm --save snapshot` save a copy of the image called snapshot.
 - `./vm --load snapshot` load the copy of the image called snapshot.  
-
