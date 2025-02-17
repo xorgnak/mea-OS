@@ -9,8 +9,6 @@ do
 	fi
 done
 
-logo
-
 echo "# downloading ipfs source."
 
 # get ipfs
@@ -26,14 +24,16 @@ echo "#                                        #"
 echo "#  ROOT PASSWORD TO INSTALL MEA OS CORE  #"
 echo "#                                        #"
 echo "##########################################"
-su -c "apt install git curl screen valkey micro htop mc figlet lua5.4 lua-http lua-redis luarocks slashem bsdgames cmatrix sl cbonsai build-essential ruby-full $XXX && \
+
+su -c "apt update && apt upgrade && apt install -y -q git curl screen valkey \
+micro htop mc figlet lua5.4 lua-http lua-redis luarocks ii \
+slashem bsdgames cmatrix sl cbonsai build-essential ruby-full $XXX && \
 gem install sinatra redis pry amatch valkey-objects ipfs-api rufus-lua && \
 echo  '' > /etc/issue && \
 echo '' > /etc/issue.net && \
 echo '' > /etc/motd && \
-echo 'figlet -f shadow \"MEA OS\" > /bin/logo && \
-bash install.sh && \
-rm /bin/os
+echo 'figlet -f shadow \"MEA OS\"' > /bin/logo && \
+bash install.sh
 "
 
 echo "# cleanup ipfs source."
@@ -102,6 +102,7 @@ cat <<EOF > ~/.bash_aliases
 alias sudo='su -c'
 alias edit='\$EDITOR'
 alias freshen='su -c "apt update -q && apt-get upgrade -y -q"'
+alias installed='su -c "dpkg-query -l"'
 EOF
 fi
 
