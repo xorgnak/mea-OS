@@ -1,38 +1,59 @@
 #!/bin/bash
 
+ARCH=amd64
 RAM=1G
-SIZE=4G
+SIZE=8G
 IMG=mea.img
 
+QEMU=qemu-system-$ARCH
 ZOOM='-display gtk,zoom-to-fit=on'
-FWD="-net user,hostfwd=tcp::$PORT-:80"
 SSHABLE='-net user,hostfwd=tcp::10022-:22'
 CDROM="-m $RAM -cdrom debian.iso -hda $IMG -boot d"
 HD="-hda $IMG -boot c"
 STD="-m $RAM -net nic" 
 
+if [[ -z "$FWD" ]]; then
+	FWD="-net user,hostfwd=tcp::$PORT-:$FWD"
+else
+	FWD="-net user,hostfwd=tcp::$PORT-:$PORT"
+fi
+
 if [[ "$1" == "--build" ]]; then
 	if [[ "$2" == "--scratch" ]]; then
 		rm $IMG
 		rm debian.iso
+		echo "# starting from scratch."
 	fi	
 	if [[ ! -f debian.iso ]]; then
-		wget -O debian.iso https://d-i.debian.org/daily-images/amd64/daily/netboot/mini.iso
+		echo "# fetching mini.iso"
+		wget -q -O debian.iso https://d-i.debian.org/daily-images/amd64/daily/netboot/mini.iso
+		echo "# mini.iso fetched."
 	fi
 	if [[ ! -f $IMG ]]; then
+		echo "# creating $IMG"
 		qemu-img create -f qcow2 $IMG $SIZE
+		echo "# $IMG created"
 	fi
-	qemu-system-amd64 $ZOOM $CDROM
-	./$0 --update
+	$QEMU -no-reboot $ZOOM $CDROM
+	if [[ "$2" == "--update" ]]; then
+		if [[ "$3" == "--qemu" ]]; then
+			./$0 --update --qemu
+		else
+			./$0 --update
+		fi
+	fi
 elif [[ "$1" == "--update" ]]; then	
 	./$0 --mount
 	sudo cp os img/bin/os
-	./$0 --umount
-	./$0 --qemu
+	sudo cp vm img/bin/vm
+	./$0 --unmount
+	if [[ "$2" == "--qemu" ]]; then
+		./$0 --qemu
+	fi
 elif [[ "$1" == "--qemu" ]]; then
-	qemu-system-amd64 $ZOOM $STD $SSHABLE $HD
+	$QEMU $ZOOM $STD $SSHABLE $HD
 elif [[ "$1" == "--proxy" ]]; then
-	qemu-system-amd64 $ZOOM $STD $FWD $HD
+	$QEMU $ZOOM $STD $FWD $HD
 elif [[ "$1" == "--connect" ]]; then
 	ssh mea@localhost -p10022
 elif [[ "$1" == "--mount" ]]; then
@@ -40,25 +61,40 @@ elif [[ "$1" == "--mount" ]]; then
 	sudo qemu-nbd --connect=/dev/nbd0 mea.img
 	mkdir img
 	sudo mount /dev/nbd0p1 img
-	echo "image mounted at `pwd`/img:"
-	ls -lha img
-elif [[ "$1" == "--umount" ]]; then
+	echo "# image mounted at `pwd`/img:"
+	#ls -lha img
+elif [[ "$1" == "--unmount" ]]; then
 	sync
 	sudo umount img
 	sudo qemu-nbd --disconnect /dev/nbd0
 	rm -fR img
+	echo "# image unmounted"
 elif [[ "$1" == "--save" ]]; then
 	cp mea.img mea-$2.img
+	echo "# saved $2"
 elif [[ "$1" == "--load" ]]; then
 	cp mea-$2.img mea.img
+	echo "# loaded $2"
 else
-	echo "build image (from scratch): $0 --build [--scratch]"
-	echo "update mea os: $0 --update"
-	echo "administer image: $0 --qemu"
-	echo "run image: export PORT=4567; $0 --proxy" 
+	echo "## MEA OS VM UTILITY"
+	echo "# usage: build, update, and export MEA OS IMGs and ISOs."
+	echo "build image [from scratch]: $0 --build [--scratch]"
+	echo "build and update MEA [and boot]: $0 --build --update [--qemu]"
+	echo "update MEA OS [and boot]: $0 --update [--qemu]"
+	echo "boot image: $0 --qemu"
+	echo "proxy \$PORT [or \$FWD] to \$PORT: export PORT=8080; [export FWD=80;] $0 --proxy" 
 	echo "ssh to running image: $0 --connect"
 	echo "mount image: $0 --mount"
-	echo "sync image: $0 --umount"
+	echo "unmount image: $0 --unmount"
 	echo "save image: $0 --save name"
-	echo "load image: $0 --load name"	
+	echo "load image: $0 --load name"
+	echo "export iso: $0 --iso"	
+	echo "# example 1: Create a base image, install overlay, and boot VM."
+	echo "$0 --build --update --qemu"
+	echo "# example 2: Add files to image."
+	echo "$0 --mount && sudo cp -fR files img/home/mea/ && $0 --unmount"
+	echo "# example 3: Administer image."
+	echo "$0 --commect"
+	echo "# example 4: Proxy a service running on port 4567 to host port 8000"
+	echo "export PORT=8000; export FWD=4567; $0 --proxy"
 fi
